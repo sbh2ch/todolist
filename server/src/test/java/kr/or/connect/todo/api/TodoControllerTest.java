@@ -131,6 +131,7 @@ public class TodoControllerTest {
         result.andDo(print());
         result.andExpect(status().isBadRequest());
     }
+
     @Test
     public void deleteTodoByCompleted() throws Exception {
         TodoDto.Create create = todoCreateFixture("delete todo by completed test");

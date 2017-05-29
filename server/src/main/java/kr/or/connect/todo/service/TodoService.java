@@ -47,8 +47,10 @@ public class TodoService {
 
     public Todo getTodo(Integer id) {
         Todo todo = dao.selectOneById(id);
-        if (todo == null)
+        if (todo == null) {
+            log.error("todo not found exception!");
             throw new TodoNotFoundException(id);
+        }
 
         return todo;
     }
