@@ -1,6 +1,7 @@
 package kr.or.connect.todo.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.or.connect.todo.domain.Todo;
 import kr.or.connect.todo.domain.TodoDto;
 import kr.or.connect.todo.service.TodoService;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,5 +63,17 @@ public class TodoControllerTest {
                 .content(objectMapper.writeValueAsString(createDto)));
         result.andDo(print());
         result.andExpect(status().isCreated());
+    }
+
+    @Test
+    public void getTodos() throws Exception {
+        TodoDto.Create createDto = todoCreateFixture("get all todo test");
+        service.createTodo(createDto);
+        service.createTodo(createDto);
+
+        ResultActions result = mockMvc.perform(get("/api/todos"));
+
+        result.andDo(print());
+        result.andExpect(status().isOk());
     }
 }

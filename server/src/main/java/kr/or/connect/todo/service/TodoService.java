@@ -36,4 +36,11 @@ public class TodoService {
         return todo;
     }
 
+    public List<Todo> getAllTodos() {
+        return dao.selectAll();
+    }
+
+    public List<Todo> getTodosByCompleted(int completed) {
+        return dao.selectByCompleted(completed);
+    }
 }

@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Created by kiost on 2017-05-29.
  */
@@ -33,6 +36,30 @@ public class TodoController {
         log.info("created : {}", newTodo);
 
         return modelMapper.map(newTodo, TodoDto.Response.class);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<TodoDto.Response> getTodos() {
+        return service.getAllTodos().stream()
+                .map(todo -> modelMapper.map(todo, TodoDto.Response.class))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/completed")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TodoDto.Response> getCompletedTodos() {
+        return service.getTodosByCompleted(1).stream()
+                .map(todo -> modelMapper.map(todo, TodoDto.Response.class))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/active")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TodoDto.Response> getActiveTodos() {
+        return service.getTodosByCompleted(0).stream()
+                .map(todo -> modelMapper.map(todo, TodoDto.Response.class))
+                .collect(Collectors.toList());
     }
 
 }
