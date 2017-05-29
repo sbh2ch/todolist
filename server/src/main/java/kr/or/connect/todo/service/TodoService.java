@@ -59,4 +59,13 @@ public class TodoService {
 
         return dao.update(todo);
     }
+
+    public void deleteTodoById(Integer id) {
+        Todo todo = getTodo(id);
+        dao.deleteById(todo.getId());
+    }
+
+    public void deleteByCompleted() {
+        dao.deleteByCompleted();
+    }
 }

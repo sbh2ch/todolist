@@ -84,6 +84,32 @@ public class TodoControllerTest {
     }
 
     @Test
+    public void getCompletedTodos() throws Exception {
+        Todo sample = service.createTodo(todoCreateFixture("completed todo"));
+        service.createTodo(todoCreateFixture("uncompleted todo"));
+
+        service.updateTodo(sample.getId(), todoUpdateFixture());
+
+        ResultActions result = mockMvc.perform(get("/api/todos/completed"));
+
+        result.andDo(print());
+        result.andExpect(status().isOk());
+    }
+
+    @Test
+    public void getActiveTodos() throws Exception {
+        Todo sample = service.createTodo(todoCreateFixture("completed todo"));
+        service.createTodo(todoCreateFixture("uncompleted todo"));
+
+        service.updateTodo(sample.getId(), todoUpdateFixture());
+
+        ResultActions result = mockMvc.perform(get("/api/todos/active"));
+
+        result.andDo(print());
+        result.andExpect(status().isOk());
+    }
+
+    @Test
     public void updateTodo() throws Exception {
         TodoDto.Create create = todoCreateFixture("update todo test");
         Todo createdTodo = service.createTodo(create);
@@ -103,6 +129,31 @@ public class TodoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(update)));
         result.andDo(print());
+        result.andExpect(status().isBadRequest());
+    }
+    @Test
+    public void deleteTodoByCompleted() throws Exception {
+        TodoDto.Create create = todoCreateFixture("delete todo by completed test");
+        Todo createdTodo = service.createTodo(create);
+        TodoDto.Update updateTodo = todoUpdateFixture();
+        service.updateTodo(createdTodo.getId(), updateTodo);
+
+        ResultActions result = mockMvc.perform(delete("/api/todos"));
+        result.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteTodoById() throws Exception {
+        TodoDto.Create create = todoCreateFixture("deleteTodo By id test");
+        Todo createdTodo = service.createTodo(create);
+
+        ResultActions result = mockMvc.perform(delete("/api/todos/" + createdTodo.getId()));
+        result.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteTodoById_NotFound() throws Exception {
+        ResultActions result = mockMvc.perform(delete("/api/todos/-4"));
         result.andExpect(status().isBadRequest());
     }
 }

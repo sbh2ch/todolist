@@ -70,6 +70,18 @@ public class TodoController {
         service.updateTodo(id, update);
     }
 
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteByCompleted() {
+        service.deleteByCompleted();
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Integer id) {
+        service.deleteTodoById(id);
+    }
+
     @ExceptionHandler(TodoNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleTodoNotFoundException(TodoNotFoundException e) {

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static kr.or.connect.todo.persistence.TodoSqls.*;
+import static kr.or.connect.todo.persistence.TodoSqls.DELETE_BY_COMPLETED;
 
 @Repository
 public class TodoDao {
@@ -60,4 +61,13 @@ public class TodoDao {
 
         return jdbc.update(UPDATE, params);
     }
+
+    public void deleteByCompleted() {
+        jdbc.update(DELETE_BY_COMPLETED, Collections.emptyMap());
+    }
+
+    public void deleteById(Integer id) {
+        jdbc.update(DELETE_BY_ID, new MapSqlParameterSource("id", id));
+    }
+
 }
