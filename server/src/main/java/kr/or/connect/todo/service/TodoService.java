@@ -43,4 +43,17 @@ public class TodoService {
     public List<Todo> getTodosByCompleted(int completed) {
         return dao.selectByCompleted(completed);
     }
+
+    public Todo getTodo(Integer id) {
+        Todo todo = dao.selectOneById(id);
+
+        return todo;
+    }
+
+    public int updateTodo(Integer id, TodoDto.Update update) {
+        Todo todo = getTodo(id);
+        todo.setCompleted(update.getCompleted());
+
+        return dao.update(todo);
+    }
 }

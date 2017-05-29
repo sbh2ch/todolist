@@ -62,4 +62,9 @@ public class TodoController {
                 .collect(Collectors.toList());
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateTodo(@PathVariable Integer id, @RequestBody TodoDto.Update update) {
+        service.updateTodo(id, update);
+    }
 }

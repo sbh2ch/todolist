@@ -20,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,6 +50,13 @@ public class TodoControllerTest {
         return createDto;
     }
 
+    private TodoDto.Update todoUpdateFixture() {
+        TodoDto.Update updateDto = new TodoDto.Update();
+        updateDto.setCompleted(1);
+
+        return updateDto;
+    }
+
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -74,6 +82,18 @@ public class TodoControllerTest {
         ResultActions result = mockMvc.perform(get("/api/todos"));
 
         result.andDo(print());
+        result.andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateTodo() throws Exception {
+        TodoDto.Create create = todoCreateFixture("update todo test");
+        Todo createdTodo = service.createTodo(create);
+        TodoDto.Update update = todoUpdateFixture();
+
+        ResultActions result = mockMvc.perform(put("/api/todos/" + createdTodo.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(update)));
         result.andExpect(status().isOk());
     }
 }
