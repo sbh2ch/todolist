@@ -1,5 +1,6 @@
 package kr.or.connect.todo.service;
 
+import kr.or.connect.todo.common.TodoNotFoundException;
 import kr.or.connect.todo.domain.Todo;
 import kr.or.connect.todo.domain.TodoDto;
 import kr.or.connect.todo.persistence.TodoDao;
@@ -46,6 +47,8 @@ public class TodoService {
 
     public Todo getTodo(Integer id) {
         Todo todo = dao.selectOneById(id);
+        if (todo == null)
+            throw new TodoNotFoundException(id);
 
         return todo;
     }

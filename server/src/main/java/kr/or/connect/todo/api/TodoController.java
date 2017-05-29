@@ -1,5 +1,7 @@
 package kr.or.connect.todo.api;
 
+import kr.or.connect.todo.common.ErrorResponse;
+import kr.or.connect.todo.common.TodoNotFoundException;
 import kr.or.connect.todo.domain.Todo;
 import kr.or.connect.todo.domain.TodoDto;
 import kr.or.connect.todo.service.TodoService;
@@ -66,5 +68,11 @@ public class TodoController {
     @ResponseStatus(HttpStatus.OK)
     public void updateTodo(@PathVariable Integer id, @RequestBody TodoDto.Update update) {
         service.updateTodo(id, update);
+    }
+
+    @ExceptionHandler(TodoNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleTodoNotFoundException(TodoNotFoundException e) {
+        return new ErrorResponse("todo.not.found.exception", "[" + e.getId() + "] TODO doesn't exist.");
     }
 }
