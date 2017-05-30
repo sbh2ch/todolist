@@ -57,6 +57,7 @@ public class TodoService {
 
     public int updateTodo(Integer id, TodoDto.Update update) {
         Todo todo = getTodo(id);
+        log.info("updated : {}", todo);
         todo.setCompleted(update.getCompleted());
 
         return dao.update(todo);
@@ -64,6 +65,7 @@ public class TodoService {
 
     public void deleteTodoById(Integer id) {
         Todo todo = getTodo(id);
+        log.info("deleted : {}", todo);
         dao.deleteById(todo.getId());
     }
 
