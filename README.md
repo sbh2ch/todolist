@@ -1,5 +1,5 @@
 # Todo List
-> 해당 과제는 웹상에서 할 일을 관리(추가, 삭제, 완료처리)하는 ToDoList 서비스를 구현하는 것이다. 이 과제에서 사용하는 Todo List는 [TodoMVC App Template](https://github.com/tastejs/todomvc-app-template)을 기반으로 설명되어 있다.
+> 완성된 과제는 개인 서버에 디플로이함. http://162.243.151.72/ 에서 확인할 수 있음.
 
 ## TASK
 1. **할 일 등록하기**
